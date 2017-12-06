@@ -1,4 +1,6 @@
 var wordBank = ["hey jude", "let it be", "something",]
+guessesRemaining = 10;
+document.getElementById("lives").innerHTML = guessesRemaining
 
 function hangman() {
     var randomnumber = Math.floor(Math.random()*wordBank.length);
@@ -31,17 +33,26 @@ function hangman() {
 
     document.onkeyup = function (event) {
         var letterPressed = event.key;        
-        // var letterCheck = chosenWord.includes(letterPressed);
-        console.log(letterPressed);
+        var letterCheck = chosenWord.includes(letterPressed);
         
-            for (i=0; i < chosenWord.length; i++) {
-                var letterValue = document.getElementById(i).getAttribute("data");
-                    if (letterValue === letterPressed) {
-                        document.getElementById(i).innerHTML = letterPressed;
-                    }
-            }
+        for (i=0; i < chosenWord.length; i++) {
+            var letterValue = document.getElementById(i).getAttribute("data");
+            if (letterValue === letterPressed) {
+                document.getElementById(i).innerHTML = letterPressed;
+            }            
+        }
+
+        if (!letterCheck) {
+            guessesRemaining--
+            document.getElementById("lives").innerHTML = guessesRemaining
+        }
+
+        if (guessesRemaining === 0) {
+            alert("You Lose!")
+        }
+
     }
 
-};
+}
 
 hangman();
