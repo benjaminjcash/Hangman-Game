@@ -5,6 +5,7 @@ var Hangman = {
     targetWord : "",
     letterGuessed : "",
     userProgress: [],
+    wrongLettersGuessed: [],
 
     //Resets Game
     resetGame : function () {
@@ -13,9 +14,10 @@ var Hangman = {
         Hangman.userProgress = [];
         document.getElementById("usersGuess").innerHTML = "";
         document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
-        document.getElementById
+        document.getElementById("wrongLetters").innerHTML = "";
         Hangman.chooseWord();
     },
+
     //Chooses targetWord.
     //Updates userProgress with all "_"s.
     chooseWord: function() {
@@ -30,22 +32,31 @@ var Hangman = {
         }
     }, 
 
+    //Checks if user has already guessed that letter and gives alert if already guessed.
     //Checks if letterGuessed is in each letter of targetWord.
     //Updates userProgress with the letterGuessed in the correct position.
     letterChecker: function () {
+        if (Hangman.userProgress.includes(Hangman.letterGuessed) || Hangman.wrongLettersGuessed.includes(Hangman.letterGuessed)) {
+            alert("You already guessed that letter!");
+            return
+        }
         for(i=0; i<Hangman.targetWord.length; i++) {
             if(Hangman.letterGuessed == Hangman.targetWord[i]) {
                 Hangman.userProgress[i] = Hangman.letterGuessed;
-                console.log(Hangman.userProgress);
             }
         }
     },
 
-    //Checks if letterGuessed is in targetWord. If not, decreases ramainingGuesses.
+    //Checks if letterGuessed is in targetWord. If not, decreases ramainingGuesses and writes letter to wrongLettersGuessed
     wordChecker: function () {
-        if (!(this.targetWord.includes(this.letterGuessed))) {
+        if (!(this.targetWord.includes(this.letterGuessed)) && !(Hangman.wrongLettersGuessed.includes(Hangman.letterGuessed))) {
             this.remainingGuesses--
             document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
+            Hangman.wrongLettersGuessed.push(this.letterGuessed);
+            document.getElementById("wrongLetters").innerHTML = "";
+            for (i = 0; i < Hangman.wrongLettersGuessed.length; i++) {
+                document.getElementById("wrongLetters").innerHTML += " " + Hangman.wrongLettersGuessed[i] + " ";
+            }
         }
     },
 
@@ -82,6 +93,7 @@ var Hangman = {
     startGuessing: function () {
         document.onkeyup = (function (event) {
             Hangman.letterGuessed = event.key.toLowerCase();
+            if (Hangman.letterGuessed)
             Hangman.letterChecker();
             Hangman.wordChecker();
             Hangman.userGuessDisplayer();
