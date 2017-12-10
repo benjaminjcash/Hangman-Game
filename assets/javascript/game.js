@@ -1,58 +1,101 @@
-var wordBank = ["hey jude", "let it be", "something",]
-guessesRemaining = 10;
-document.getElementById("lives").innerHTML = guessesRemaining
+var Hangman = {
+    remainingGuesses : 10,
+    score : 0,
+    wordBank : ["help", "girl", "something"],
+    targetWord : "",
+    letterGuessed : "",
+    userProgress: [],
 
-function hangman() {
-    var randomnumber = Math.floor(Math.random()*wordBank.length);
-    var chosenWord = wordBank[randomnumber];
+    //Resets Game
+    resetGame : function () {
+        Hangman.remainingGuesses = 10;
+        Hangman.score = 0;
+        Hangman.userProgress = [];
+        document.getElementById("usersGuess").innerHTML = "";
+        document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
+        document.getElementById
+        Hangman.chooseWord();
+    },
+    //Chooses targetWord.
+    //Updates userProgress with all "_"s.
+    chooseWord: function() {
+        var randomNumber = Math.floor(Math.random()*this.wordBank.length);
+        this.targetWord = this.wordBank[randomNumber];
+        console.log(this.targetWord);
+        for (i=0; i <this.targetWord.length; i++){
+            this.userProgress.push("_");
+        }
+        for (i = 0; i < Hangman.userProgress.length; i++) {
+            document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
+        }
+    }, 
 
-    console.log(chosenWord);
+    //Checks if letterGuessed is in each letter of targetWord.
+    //Updates userProgress with the letterGuessed in the correct position.
+    letterChecker: function () {
+        for(i=0; i<Hangman.targetWord.length; i++) {
+            if(Hangman.letterGuessed == Hangman.targetWord[i]) {
+                Hangman.userProgress[i] = Hangman.letterGuessed;
+                console.log(Hangman.userProgress);
+            }
+        }
+    },
+
+    //Checks if letterGuessed is in targetWord. If not, decreases ramainingGuesses.
+    wordChecker: function () {
+        if (!(this.targetWord.includes(this.letterGuessed))) {
+            this.remainingGuesses--
+            document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
+        }
+    },
+
+    //Displays word onto the screen.
+    userGuessDisplayer : function () {
+        document.getElementById("usersGuess").innerHTML = "";
+        for(i=0; i<Hangman.userProgress.length; i++) {
+            document.getElementById("usersGuess").innerHTML += " "+Hangman.userProgress[i];
+        }
+    },
+
+    //Checks for a win.
+    winChecker: function () {
+        var underScoreIndex = Hangman.userProgress.indexOf("_");
+        if (underScoreIndex == -1) {
+             alert("you won!");
+             Hangman.score++
+             document.getElementById("score").innerHTML = Hangman.score;
+             document.getElementById("usersGuess").innerHTML = "";
+             Hangman.userProgress = [];
+             Hangman.chooseWord();
+        }
+    },
+
+    //Checks for a loss.
+    lossChecker: function () {
+        if (Hangman.remainingGuesses == 0) {
+            alert("You Lose!");
+            Hangman.resetGame();
+        }
+    },
+
+    //Initializes guessing.
+    startGuessing: function () {
+        document.onkeyup = (function (event) {
+            Hangman.letterGuessed = event.key.toLowerCase();
+            Hangman.letterChecker();
+            Hangman.wordChecker();
+            Hangman.userGuessDisplayer();
+            Hangman.winChecker();
+            Hangman.lossChecker();
+        })
+    },
+
     
-    // Takes random chosen word, and displays the "ghost-spaces" on the screen.
-
-    for (i = 0; i < chosenWord.length; i++) {
-
-        var selectedLetter = chosenWord.charAt(i); 
-        
-        if (selectedLetter === " ") {
-            var newDiv = document.createElement("div");
-            newDiv.setAttribute("data", selectedLetter);
-            newDiv.setAttribute("id", i)
-            newDiv.className = "spacespaces";
-            var wordcontainer = document.getElementById("wordcontainer");
-            wordcontainer.appendChild(newDiv);   
-        } else {
-            var newDiv = document.createElement("div");
-            newDiv.setAttribute("data", selectedLetter);
-            newDiv.setAttribute("id", i)
-            newDiv.className = "letterspaces";
-            var wordcontainer = document.getElementById("wordcontainer");
-            wordcontainer.appendChild(newDiv); 
-        }     
-    };
-
-    document.onkeyup = function (event) {
-        var letterPressed = event.key;        
-        var letterCheck = chosenWord.includes(letterPressed);
-        
-        for (i=0; i < chosenWord.length; i++) {
-            var letterValue = document.getElementById(i).getAttribute("data");
-            if (letterValue === letterPressed) {
-                document.getElementById(i).innerHTML = letterPressed;
-            }            
-        }
-
-        if (!letterCheck) {
-            guessesRemaining--
-            document.getElementById("lives").innerHTML = guessesRemaining
-        }
-
-        if (guessesRemaining === 0) {
-            alert("You Lose!")
-        }
-
-    }
 
 }
 
-hangman();
+Hangman.chooseWord();
+Hangman.startGuessing();
+
+
+
