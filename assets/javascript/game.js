@@ -1,20 +1,23 @@
 var Hangman = {
-    remainingGuesses : 10,
+    remainingGuesses : 26,
     score : 0,
     wordBank : ["help", "girl", "something"],
     targetWord : "",
     letterGuessed : "",
     userProgress: [],
     wrongLettersGuessed: [],
+    validImputs: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
 
     //Resets Game
     resetGame : function () {
-        Hangman.remainingGuesses = 10;
+        Hangman.remainingGuesses = 26;
         Hangman.score = 0;
         Hangman.userProgress = [];
         document.getElementById("usersGuess").innerHTML = "";
         document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
         document.getElementById("wrongLetters").innerHTML = "";
+        document.getElementById("score"). innerHTML = Hangman.score;
+
         Hangman.chooseWord();
     },
 
@@ -23,7 +26,6 @@ var Hangman = {
     chooseWord: function() {
         var randomNumber = Math.floor(Math.random()*this.wordBank.length);
         this.targetWord = this.wordBank[randomNumber];
-        console.log(this.targetWord);
         for (i=0; i <this.targetWord.length; i++){
             this.userProgress.push("_");
         }
@@ -68,16 +70,25 @@ var Hangman = {
         }
     },
 
-    //Checks for a win.
-    winChecker: function () {
+    //Checks for a win for the round.
+    roundWinChecker: function () {
         var underScoreIndex = Hangman.userProgress.indexOf("_");
         if (underScoreIndex == -1) {
-             alert("you won!");
-             Hangman.score++
-             document.getElementById("score").innerHTML = Hangman.score;
-             document.getElementById("usersGuess").innerHTML = "";
-             Hangman.userProgress = [];
-             Hangman.chooseWord();
+            Hangman.score++
+            Hangman.userProgress = [];
+            Hangman.wrongLettersGuessed = [],
+            document.getElementById("score").innerHTML = Hangman.score;
+            document.getElementById("usersGuess").innerHTML = "";
+            document.getElementById("wrongLetters").innerHTML = "";
+            Hangman.chooseWord();
+        }
+    },
+
+    //Checks for a win for the game, resets game if win.
+    gameWinChecker: function () {
+        if (Hangman.score == 5) {
+            alert("You won!");
+            Hangman.resetGame();
         }
     },
 
@@ -93,12 +104,16 @@ var Hangman = {
     startGuessing: function () {
         document.onkeyup = (function (event) {
             Hangman.letterGuessed = event.key.toLowerCase();
-            if (Hangman.letterGuessed)
-            Hangman.letterChecker();
-            Hangman.wordChecker();
-            Hangman.userGuessDisplayer();
-            Hangman.winChecker();
-            Hangman.lossChecker();
+            if (Hangman.validImputs.includes(Hangman.letterGuessed)) {
+                Hangman.letterChecker();
+                Hangman.wordChecker();
+                Hangman.userGuessDisplayer();
+                Hangman.roundWinChecker();
+                Hangman.lossChecker();
+                Hangman.gameWinChecker();
+            } else {
+                alert("That's an invalid selection!");
+            }
         })
     },
 

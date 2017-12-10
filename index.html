@@ -2,15 +2,33 @@
 <html>
 <head>
     <title>Object: Hangman</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <h1>Press any key to get started!</h1>
-    <diV>
-        <p id="usersGuess"></p>
-        <p>Guesses Remaining: <span id="remainingGuesses">10</span></p>
-        <p>Wins: <span id="score">0</span></p>
-        <p>Letters Already Guessed: <span id=wrongLetters></span></p>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="mainHeader" class="panel panel-defult">
+                <h1 id="mainTitle">The Beatles! Hangman</h1>
+                <h2 id="instructions">Press any key to get started! Try to get to 5 wins without running out of guesses.</h2>
+            </div> 
+        </div>
     </div>
+
+    <diV class="row">
+        <div class="col-md-12">
+            <div id="mainContent" class="panel panel-defult">
+                <p id="usersGuess"></p>
+                <p class="stats">Guesses Remaining: <span id="remainingGuesses">26</span></p>
+                <p class="stats">Wins: <span id="score">0</span></p>
+                <p class="stats">Letters Already Guessed: <span id="wrongLetters"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
     <script type="text/javascript" src="assets/javascript/game.js"></script>
+    
 </body>
 </html>

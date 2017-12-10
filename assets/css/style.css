@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "bootle";
+    src: url("fonts/BOOTLE__.ttf")
+}
+#mainHeader {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#mainTitle {
+    color: black;
+    font-family: "bootle";
+    font-size: 64px;
+}
+
+#instructions {
+    font-size: 14px;
+}
+
+#usersGuess {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 48px;
+}
+
+#mainContent {
+    text-align: center;
+}
+
+.stats {
+    font-size: 14px;
+    font-style: bold;
+    color: black;
+    font-family: "SFMono-Regular",Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
