@@ -7,8 +7,10 @@ var Hangman = {
     userProgress: [],
     wrongLettersGuessed: [],
     validImputs: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-    songPlaying: "",
-
+    audio: [new Audio("assets/audio/something.mp3"), new Audio("assets/audio/girl.mp3"), new Audio("assets/audio/help.mp3"), new Audio("assets/audio/because.mp3"), new Audio("assets/audio/michelle.mp3"),
+        new Audio("assets/audio/blackbird.mp3"), new Audio("assets/audio/julia.mp3"), new Audio("assets/audio/birthday.mp3"), new Audio("assets/audio/misery.mp3"), new Audio("assets/audio/chains.mp3"),
+        new Audio("assets/audio/rain.mp3"), new Audio("assets/audio/taxman.mp3"), new Audio("assets/audio/wait.mp3"), new Audio("assets/audio/boys.mp3"), new Audio("assets/audio/yesterday.mp3"),
+        new Audio ("assets/audio/blisters.wav")],
     //Resets Game
     resetGame : function () {
         Hangman.remainingGuesses = 26;
@@ -24,31 +26,15 @@ var Hangman = {
     //Chooses targetWord.
     //Updates userProgress with all "_"s.
     chooseWord: function() {
-        if (Hangman.songplaying == null) {
-            var randomNumber = Math.floor(Math.random()*this.wordBank.length);
-            this.targetWord = this.wordBank[randomNumber];
-                for (i=0; i <this.targetWord.length; i++){
-                this.userProgress.push("_");
-                };      
-                for (i = 0; i < Hangman.userProgress.length; i++) {
-                document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
-                };
-                document.getElementById(Hangman.targetWord+"mp3").play();
-                Hangman.songPlaying = Hangman.targetWord + "mp3";
-        } else {
-            var randomNumber = Math.floor(Math.random() * this.wordBank.length);
-            this.targetWord = this.wordBank[randomNumber];
-                for (i = 0; i < this.targetWord.length; i++) {
-                    this.userProgress.push("_");
-                };
-                for (i = 0; i < Hangman.userProgress.length; i++) {
-                    document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
-                };
-                document.getElementById(Hangman.songPlaying + "mp3").stop();
-                document.getElementById(Hangman.targetWord + "mp3").play();
-                Hangman.songPlaying = Hangman.targetWord + "mp3";
-            }
-        
+        var randomNumber = Math.floor(Math.random()*this.wordBank.length);
+        this.targetWord = this.wordBank[randomNumber];
+            for (i=0; i <this.targetWord.length; i++){
+            this.userProgress.push("_");
+            };      
+            for (i = 0; i < Hangman.userProgress.length; i++) {
+            document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
+            };
+        Hangman.audio[randomNumber].play();     
     }, 
 
     //Checks if user has already guessed that letter and gives alert if already guessed.
@@ -87,7 +73,7 @@ var Hangman = {
         }
     },
 
-    //Checks for a win for the round.
+    //Checks for a win for the round. Stops playing current song.
     roundWinChecker: function () {
         var underScoreIndex = Hangman.userProgress.indexOf("_");
         if (underScoreIndex == -1) {
@@ -97,6 +83,8 @@ var Hangman = {
             document.getElementById("score").innerHTML = Hangman.score;
             document.getElementById("usersGuess").innerHTML = "";
             document.getElementById("wrongLetters").innerHTML = "";
+            var indexOfTargetWord = Hangman.wordBank.indexOf(Hangman.targetWord);
+            Hangman.audio[indexOfTargetWord].pause();
             Hangman.chooseWord();
         }
     },
@@ -105,6 +93,8 @@ var Hangman = {
     gameWinChecker: function () {
         if (Hangman.score == 5) {
             alert("You won!");
+            Hangman.audio[15].play();
+            alert("Do you want to play again?");
             Hangman.resetGame();
         }
     },
@@ -137,6 +127,8 @@ var Hangman = {
 
 Hangman.chooseWord();
 Hangman.startGuessing();
+
+
 
 
 
