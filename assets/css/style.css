@@ -4,9 +4,17 @@ src: url("fonts/bootle__-webfont.woff") format('woff'),
  url("fonts/bootle__-webfont.woff2") format('woff2');
 }
 
+body {
+   background-image: url("../images/beatles_background.jpg"); width: 100%;
+   background-size: 100%;
+   background-repeat: repeat;
+   background-color: #cccccc;
+}
+
 #mainHeader {
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 #mainTitle {
@@ -21,7 +29,7 @@ src: url("fonts/bootle__-webfont.woff") format('woff'),
 }
 
 #usersGuess {
-    font-family: "Courier New", Courier, monospace;
+    font-family: 'Source Code Pro', monospace;
     font-size: 24px;
 }
 
@@ -30,7 +38,9 @@ src: url("fonts/bootle__-webfont.woff") format('woff'),
 }
 
 .stats {
-    font-size: 14px;
-    font-style: bold;
+    font-size: 20px;
     color: black;
+    font-style: bold;
+    font-family: 'Bungee', cursive;
 }
+

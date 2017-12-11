@@ -1,12 +1,13 @@
 var Hangman = {
     remainingGuesses : 26,
     score : 0,
-    wordBank : ["help", "girl", "something"],
+    wordBank : ["something", "girl", "help", "because", "michelle", "blackbird", "julia", "birthday", "misery", "chains", "rain", "taxman", "wait", "boys", "yesterday"],
     targetWord : "",
     letterGuessed : "",
     userProgress: [],
     wrongLettersGuessed: [],
     validImputs: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+    songPlaying: "",
 
     //Resets Game
     resetGame : function () {
@@ -17,21 +18,37 @@ var Hangman = {
         document.getElementById("remainingGuesses").innerHTML = Hangman.remainingGuesses;
         document.getElementById("wrongLetters").innerHTML = "";
         document.getElementById("score"). innerHTML = Hangman.score;
-
         Hangman.chooseWord();
     },
 
     //Chooses targetWord.
     //Updates userProgress with all "_"s.
     chooseWord: function() {
-        var randomNumber = Math.floor(Math.random()*this.wordBank.length);
-        this.targetWord = this.wordBank[randomNumber];
-        for (i=0; i <this.targetWord.length; i++){
-            this.userProgress.push("_");
-        }
-        for (i = 0; i < Hangman.userProgress.length; i++) {
-            document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
-        }
+        if (Hangman.songplaying == null) {
+            var randomNumber = Math.floor(Math.random()*this.wordBank.length);
+            this.targetWord = this.wordBank[randomNumber];
+                for (i=0; i <this.targetWord.length; i++){
+                this.userProgress.push("_");
+                };      
+                for (i = 0; i < Hangman.userProgress.length; i++) {
+                document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
+                };
+                document.getElementById(Hangman.targetWord+"mp3").play();
+                Hangman.songPlaying = Hangman.targetWord + "mp3";
+        } else {
+            var randomNumber = Math.floor(Math.random() * this.wordBank.length);
+            this.targetWord = this.wordBank[randomNumber];
+                for (i = 0; i < this.targetWord.length; i++) {
+                    this.userProgress.push("_");
+                };
+                for (i = 0; i < Hangman.userProgress.length; i++) {
+                    document.getElementById("usersGuess").innerHTML += " " + Hangman.userProgress[i];
+                };
+                document.getElementById(Hangman.songPlaying + "mp3").stop();
+                document.getElementById(Hangman.targetWord + "mp3").play();
+                Hangman.songPlaying = Hangman.targetWord + "mp3";
+            }
+        
     }, 
 
     //Checks if user has already guessed that letter and gives alert if already guessed.
@@ -76,7 +93,7 @@ var Hangman = {
         if (underScoreIndex == -1) {
             Hangman.score++
             Hangman.userProgress = [];
-            Hangman.wrongLettersGuessed = [],
+            Hangman.wrongLettersGuessed = [];
             document.getElementById("score").innerHTML = Hangman.score;
             document.getElementById("usersGuess").innerHTML = "";
             document.getElementById("wrongLetters").innerHTML = "";
@@ -116,9 +133,6 @@ var Hangman = {
             }
         })
     },
-
-    
-
 }
 
 Hangman.chooseWord();
