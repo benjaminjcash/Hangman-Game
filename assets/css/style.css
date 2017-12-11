@@ -1,7 +1,9 @@
 @font-face {
-    font-family: "bootle";
-    src: url("fonts/BOOTLE__.ttf")
+font-family: "Bootle";
+src: url("fonts/bootle__-webfont.woff") format('woff'),
+ url("fonts/bootle__-webfont.woff2") format('woff2');
 }
+
 #mainHeader {
     text-align: center;
     margin-top: 20px;
@@ -9,8 +11,9 @@
 
 #mainTitle {
     color: black;
-    font-family: "bootle";
     font-size: 64px;
+    font-family: "Bootle", Helvetica, Arial, sans-serif;
+    letter-spacing: 0px;
 }
 
 #instructions {
@@ -19,7 +22,7 @@
 
 #usersGuess {
     font-family: "Courier New", Courier, monospace;
-    font-size: 48px;
+    font-size: 24px;
 }
 
 #mainContent {
@@ -30,4 +33,4 @@
     font-size: 14px;
     font-style: bold;
     color: black;
-    font-family: "SFMono-Regular",Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
